@@ -177,7 +177,10 @@ function status1() {
             for (let i = 0; i < data.length; i++) {
                 str += "<tr><td>" + data[i].title + "</td>" +
                     '<td>' + data[i].content + "</td>" +
-                    '<td>' + data[i].status.name + "</td>"
+                    '<td>' + data[i].status.name + "</td>" +
+                "<td align=\"center\">" + "<button onclick='getOne(" + data[i].id + ")'>Detail</button>" + "</td>" +
+                "<td align=\"center\">" + "<button onclick='showFormEdit(" + data[i].id + ")'>Edit</button>" + "</td>" +
+                "<td align=\"center\">" + "<button onclick='deleteById(" + data[i].id + ")'>Delete</button>" + "</td></tr>";
             }
             str += "</table>"
             document.getElementById("div1").innerHTML = str;
@@ -188,6 +191,7 @@ function status1() {
     })
 }
 function getOne(id) {
+
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/api/blogs/find/" + id,
@@ -198,10 +202,13 @@ function getOne(id) {
     })
 }
 function findOne(data) {
-    let res = ""
-    res+= '<h2>Detail</h2><hr>' +'<h4>Title: ' +data.title + '</h4>'
-        + '<h4>Content: ' + data.content +'</h4>' +
-        '<h4>Status: '+ data.status.name+'</h4>'
+    let res = "<h2>List blog</h2>" + "<table border='1px' width='100%'><tr>"
+        + "<th>Title</th><th>Content</th><th>Time</th><th>Status</th>"
+
+    res += "<tr><td>" + data.title + "</td>" +
+        "<td>" + data.content + "</td>" +
+        "<td>" + data.time + "</td>" +
+        "<td>" + data.status.name + "</td></tr>";
     document.getElementById("div2").innerHTML = res;
 }
 
