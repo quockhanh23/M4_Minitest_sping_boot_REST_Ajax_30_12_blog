@@ -11,14 +11,12 @@ function getAllBlog() {
 
 function displayBlog(data) {
     let res = "<h2>List blog</h2>" + "<table border='1px' width='100%'><tr>"
-        + "<th>Title</th>" + "<th>Content</th>" + "<th>Time</th>" + "<th>Status</th>"
+        + "<th>Title</th>" + "<th>Status</th>"
         + "<th style=\"color: rebeccapurple\">Detail</th>"
         + "<th style=\"color: rebeccapurple\">Edit</th>"
         + "<th style=\"color: rebeccapurple\">Delete</th></tr>"
     for (let i = 0; i < data.length; i++) {
         res += "<tr><td>" + data[i].title + "</td>" +
-            "<td>" + data[i].content + "</td>" +
-            "<td>" + data[i].time + "</td>" +
             "<td>" + data[i].status.name + "</td>" +
             "<td align=\"center\">" + "<button onclick='getOne(" + data[i].id + ")'>Detail</button>" + "</td>" +
             "<td align=\"center\">" + "<button onclick='showFormEdit(" + data[i].id + ")'>Edit</button>" + "</td>" +
@@ -135,6 +133,7 @@ function showFormEdit(id) {
                     document.getElementById('div2').innerHTML = res;
                 },
                 error: function (error) {
+                    console.log(error)
                     alert("ops!! Something wrong!")
                 }
             })
@@ -143,14 +142,18 @@ function showFormEdit(id) {
 }
 
 function saveEdit(id) {
+    let title = $('#title').val()
+    let content = document.getElementById("content").value;
+    let status = document.getElementById("status").value;
     let blog = {
-        title: document.getElementById("title").value,
-        content: document.getElementById("content").value,
-        category: {
-            id: status.getElementById("status").value,
+        title: title,
+        content: content,
+
+        status: {
+            id: status
         }
     }
-    console.log(blog)
+    console.log(blog);
     $.ajax({
         headers: {
             'Accept': 'application/json',
@@ -172,7 +175,7 @@ function status1() {
         url: "http://localhost:8080/api/blogs/search1",
         success: function (data) {
             console.log(data)
-            let str = "<h2>Find all status public</h2>" + "<table border='1px'  width='100%'><tr>" + "<th>Title</th>" + "<th>Content</th>"
+            let str = "<h2>List public</h2>" + "<table border='1px'  width='100%'><tr>" + "<th>Title</th>" + "<th>Content</th>"
                 + "<th>Status</th></tr>"
             for (let i = 0; i < data.length; i++) {
                 str += "<tr><td>" + data[i].title + "</td>" +

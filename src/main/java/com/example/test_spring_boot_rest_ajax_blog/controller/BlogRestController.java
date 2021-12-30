@@ -65,11 +65,8 @@ public class BlogRestController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Blog> saveBlog(@PathVariable Long id, Blog blog) {
+    public ResponseEntity<Blog> saveBlog(@PathVariable Long id,@RequestBody Blog blog) {
         Optional<Blog> blogOptional = blogService.findById(id);
-        if (blogOptional.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
         blog.setId(blogOptional.get().getId());
         blogService.save(blog);
         return new ResponseEntity<>(blog, HttpStatus.OK);
